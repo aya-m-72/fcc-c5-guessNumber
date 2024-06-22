@@ -23,31 +23,31 @@ echo Guess the secret number between 1 and 1000:
 
 ATTEMPTS=0
 
-CHECK_INPUT(){
+CHECK_INPUT() {
 
-if [[ ! $1 =~ ^[0-9]+$ ]]
-then
-  echo That is not an integer, guess again:
-  READ_INPUT
-else
-  ATTEMPTS=$(( $ATTEMPTS + 1 ))
-  if [[ $1 -gt $SECRET_NUMBER ]]
+  if [[ ! $1 =~ ^[0-9]+$ ]]
   then
-    echo It\'s lower than that, guess again:
-    READ_INPUT
-  elif [[ $1 -lt $SECRET_NUMBER ]]
-  then 
-    echo It\'s higher than that, guess again:
+    echo That is not an integer, guess again:
     READ_INPUT
   else
-    INSERT_GAME_RESULT=$($PSQL "INSERT INTO games (user_id,attempts) VALUES ($USER_ID,$ATTEMPTS);")
-    echo You guessed it in $ATTEMPTS tries. The secret number was $SECRET_NUMBER. Nice job!
+    ATTEMPTS=$(( $ATTEMPTS + 1 ))
+    if [[ $1 -gt $SECRET_NUMBER ]]
+    then
+      echo It\'s lower than that, guess again:
+      READ_INPUT
+    elif [[ $1 -lt $SECRET_NUMBER ]]
+    then 
+      echo It\'s higher than that, guess again:
+      READ_INPUT
+    else
+      INSERT_GAME_RESULT=$($PSQL "INSERT INTO games (user_id,attempts) VALUES ($USER_ID,$ATTEMPTS);")
+      echo You guessed it in $ATTEMPTS tries. The secret number was $SECRET_NUMBER. Nice job!
+    fi
   fi
-fi
 
 }
 
-READ_INPUT(){
+READ_INPUT() {
   read INPUT
   CHECK_INPUT $INPUT
 }
