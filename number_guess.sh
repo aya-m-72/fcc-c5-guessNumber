@@ -1,7 +1,9 @@
 #!/bin/bash
+
 PSQL="psql --username=freecodecamp --dbname=number_guess --tuples-only -c"
 echo Enter your username:
 read USERNAME
+
 # check username
 USERNAME_RESULT=$($PSQL "SELECT users.user_id, count(*) AS games_played, MIN(attempts) AS best_game FROM users RIGHT JOIN games USING(user_id) WHERE username='$USERNAME' GROUP BY users.user_id;")
 if [[ -z $USERNAME_RESULT ]]
@@ -45,6 +47,7 @@ else
 fi
 
 }
+
 READ_INPUT(){
   read INPUT
   CHECK_INPUT $INPUT
