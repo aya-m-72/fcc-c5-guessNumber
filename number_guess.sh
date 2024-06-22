@@ -8,7 +8,6 @@ read USERNAME
 USERNAME_RESULT=$($PSQL "SELECT users.user_id, count(*) AS games_played, MIN(attempts) AS best_game FROM users RIGHT JOIN games USING(user_id) WHERE username='$USERNAME' GROUP BY users.user_id;")
 if [[ -z $USERNAME_RESULT ]]
 then 
-  # insert user get their id
   echo Welcome, $USERNAME! It looks like this is your first time here.
   INSERT_USER_RESULT=$($PSQL "INSERT INTO users (username) VALUES ('$USERNAME');")
 else
